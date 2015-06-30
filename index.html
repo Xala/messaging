@@ -30,9 +30,6 @@
 	                <li> <a href="#/logout">Logout</a>
 
 	                </li>
-	                <li> <a href="#/register">Register</a>
-
-	                </li>
 	                <li> <a href="#/profile">Profile</a>
 
 	                </li>
@@ -43,20 +40,7 @@
 	<div id="container" class="container">
 	    <!-- LOGIN -->
 	    <form id="frmLogin" role="form">
-	         <h2>Login</h2>
-
-	        <div class="form-group">
-	            <label for="txtEmail">Email address</label>
-	            <input type="email" class="form-control" id="txtEmail" placeholder="Enter email" name="email" />
-	        </div>
-	        <div class="form-group">
-	            <label for="txtPass">Password</label>
-	            <input type="password" class="form-control" id="txtPass" placeholder="Password" name="password" />
-	        </div>
-	        <button type="submit" class="btn btn-default btn-block">Login</button>
-	        <br />
-	        <br />
-	         <h4>Login with</h4>
+	         <h2>Login with</h2>
 
 	        <a href="#" class="btn btn-danger bt-social" data-provider="google">Google+</a>
 
@@ -68,43 +52,16 @@
 
 	    </form>
 	    <!-- / LOGOUT -->
-	    <!-- REGISTER -->
-	    <form id="frmRegister" role="form">
-	         <h2>Register</h2>
-
-	        <div class="form-group">
-	            <label for="txtRegEmail">Email address</label>
-	            <input type="email" class="form-control" id="txtEmail" placeholder="Enter email" name="email" />
-	        </div>
-	        <div class="form-group">
-	            <label for="txtRegPass">Password</label>
-	            <input type="password" class="form-control" id="txtPass" placeholder="Password" name="password" />
-	        </div>
-	        <button type="submit" class="btn btn-default">Register</button>
-	    </form>
-	    <!-- / REGISTER -->
 	    <!-- PROFILE -->
 	    <form id="frmProfile" role="form">
 	         <h2>Profile</h2>
 
 	        <br />
 	        <div class="form-group">
-	            <label for="txtName">Name</label>
-	            <input type="text" class="form-control" id="txtName" placeholder="Name" name="name" />
-	        </div>
-	        <div class="form-group">
-	            <label for="ddlDino">Favorite Dinosaur</label>
-	            <select id="ddlDino" name="favoriteDinosaur" class="form-control">
-	                <option>None</option>
-	                <option>Pteranodon</option>
-	                <option>Lambeosaurus</option>
-	                <option>Stegosaurus</option>
-	                <option>Daspletosaurus</option>
-	            </select>
-	        </div>
 	        <div id='messagesDiv'></div>
-    		<input type='text' id='nameInput' placeholder='Name'>
-    		<input type='text' id='messageInput' placeholder='Message'>
+    		<input type='text' class="form-control" id='nameInput' placeholder='Name'>
+    		<input type='text' class="form-control" id='messageInput' placeholder='Message'>
+    		</div>
 	        <button type="submit" class="btn btn-primary">Update</button>
 	    </form>
 	    <!-- / PROFILE -->
@@ -119,7 +76,7 @@
 	</div>
     
     <script>
-      var myDataRef = new Firebase('https://popping-inferno-1335.firebaseio.com/');
+     /* var myDataRef = new Firebase('https://popping-inferno-1335.firebaseio.com/');
       $('#messageInput').keypress(function (e) {
         if (e.keyCode == 13) {
           mydataRef.authWithOAuthPopup("google", function(error, authData) {
@@ -146,7 +103,7 @@
       function displayChatMessage(name, text, time) {
         $('<div/>').text(text).prepend($('<em/>').text(name+'('+time+'): ')).appendTo($('#messagesDiv'));
         $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
-      }; 
+      }; */
     </script>
   </body>
 </html>

@@ -14,10 +14,6 @@
             form: 'frmLogout',
             controller: 'logout'
         },
-            '#/register': {
-            form: 'frmRegister',
-            controller: 'register'
-        },
             '#/profile': {
             form: 'frmProfile',
             controller: 'profile',
@@ -54,70 +50,6 @@
 
         return deferred.promise();
     };
-
-    // Handle Email/Password login
-    // returns a promise
-    function authWithPassword(userObj) {
-        var deferred = $.Deferred();
-        console.log(userObj);
-        rootRef.authWithPassword(userObj, function onAuth(err, user) {
-            if (err) {
-                deferred.reject(err);
-            }
-
-            if (user) {
-                deferred.resolve(user);
-            }
-
-        });
-
-        return deferred.promise();
-    }
-
-    // create a user but not login
-    // returns a promsie
-    function createUser(userObj) {
-        var deferred = $.Deferred();
-        rootRef.createUser(userObj, function (err) {
-
-            if (!err) {
-                deferred.resolve();
-            } else {
-                deferred.reject(err);
-            }
-
-        });
-
-        return deferred.promise();
-    }
-
-    // Create a user and then login in
-    // returns a promise
-    function createUserAndLogin(userObj) {
-        return createUser(userObj)
-            .then(function () {
-            return authWithPassword(userObj);
-        });
-    }
-
-    // authenticate anonymously
-    // returns a promise
-    function authAnonymously() {
-        var deferred = $.Deferred();
-        rootRef.authAnonymously(function (err, authData) {
-
-            if (authData) {
-                deferred.resolve(authData);
-            }
-
-            if (err) {
-                deferred.reject(err);
-            }
-
-        });
-
-        return deferred.promise();
-    }
 
     // route to the specified route if sucessful
     // if there is an error, show the alert
@@ -192,21 +124,6 @@
         rootRef.unauth();
     };
 
-    controllers.register = function (form) {
-
-        // Form submission for registering
-        form.on('submit', function (e) {
-
-            var userAndPass = $(this).serializeObject();
-            var loginPromise = createUserAndLogin(userAndPass);
-            e.preventDefault();
-
-            handleAuthResponse(loginPromise, 'profile');
-
-        });
-
-    };
-
     controllers.profile = function (form) {
         // Check the current user
         var user = rootRef.getAuth();
@@ -214,7 +131,7 @@
 
         // If no current user send to register page
         if (!user) {
-            routeTo('register');
+            routeTo('login');
             return;
         }
 
@@ -226,27 +143,31 @@
                 return;
             }
 
-            // set the fields
-            form.find('#txtName').val(user.name);
-            form.find('#ddlDino').val(user.favoriteDinosaur);
+            // set name field
+            form.find('#nameInput').val(user.name);
         });
 
         // Save user's info to Firebase
         form.on('submit', function (e) {
             e.preventDefault();
-            var userInfo = $(this).serializeObject();
-
-            userRef.set(userInfo, function onComplete() {
-
-                // show the message if write is successful
-                showAlert({
-                    title: 'Successfully saved!',
-                    detail: 'You are still logged in',
-                    className: 'alert-success'
-                });
-
-            });
+		    var name = $('#nameInput').val();
+			var text = $('#messageInput').val();
+			var d = new Date();
+			var curr_date = d.getDate();
+			var curr_month = d.getMonth() + 1; //Months are zero based
+			var curr_year = d.getFullYear();
+			var time = curr_date + "-" + curr_month + "-" + curr_year;
+			userRef.push({name: name, text: text, time: time});
+			$('#messageInput').val('');
         });
+        userRef.on('child_added', function(snapshot) {
+        	var message = snapshot.val();
+        	displayChatMessage(message.name, message.text, message.time);
+      	});
+      	function displayChatMessage(name, text, time) {
+        	$('<div/>').text(text).prepend($('<em/>').text(name+'('+time+'): ')).appendTo($('#messagesDiv'));
+        	$('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+      	};
 
     };
 
@@ -263,7 +184,7 @@
         // current user then go to the register page and
         // stop executing
         if (formRoute.authRequired && !currentUser) {
-            routeTo('register');
+            routeTo('login');
             return;
         }
 
@@ -303,7 +224,6 @@
 
     Path.map("#/").to(prepRoute);
     Path.map("#/logout").to(prepRoute);
-    Path.map("#/register").to(prepRoute);
     Path.map("#/profile").to(prepRoute);
 
     Path.root("#/");
@@ -338,3 +258,32 @@
     });
 
 }(window.jQuery, window.Firebase, window.Path))
+
+var myDataRef = new Firebase('https://popping-inferno-1335.firebaseio.com/');
+      $('#messageInput').keypress(function (e) {
+        if (e.keyCode == 13) {
+          mydataRef.authWithOAuthPopup("google", function(error, authData) {
+            if (error) {
+              console.log("Login Failed!", error);
+            } else {
+              var name = $('#nameInput').val();
+              var text = $('#messageInput').val();
+              var d = new Date();
+              var curr_date = d.getDate();
+              var curr_month = d.getMonth() + 1; //Months are zero based
+              var curr_year = d.getFullYear();
+              var time = curr_date + "-" + curr_month + "-" + curr_year;
+              myDataRef.push({name: name, text: text, time: time});
+              $('#messageInput').val('');
+            }
+          });
+        }
+      });
+      myDataRef.on('child_added', function(snapshot) {
+        var message = snapshot.val();
+        displayChatMessage(message.name, message.text, message.time);
+      });
+      function displayChatMessage(name, text, time) {
+        $('<div/>').text(text).prepend($('<em/>').text(name+'('+time+'): ')).appendTo($('#messagesDiv'));
+        $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+      };
