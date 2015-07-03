@@ -157,12 +157,12 @@
 			var curr_month = d.getMonth() + 1; //Months are zero based
 			var curr_year = d.getFullYear();
 			var time = curr_date + "-" + curr_month + "-" + curr_year;
-			userRef.push({name: name, text: text, time: time});
+			rootRef.push({name: name, text: text, time: time});
 			$('#messageInput').val('');
         });
-        userRef.on('child_added', function(snapshot) {
+        rootRef.on('child_added', function(snapshot) {
         	var message = snapshot.val();
-        	displayChatMessage(message.name, message.text, message.time);
+        	//displayChatMessage(message.name, message.text, message.time);
       	});
       	function displayChatMessage(name, text, time) {
         	$('<div/>').text(text).prepend($('<em/>').text(name+'('+time+'): ')).appendTo($('#messagesDiv'));
