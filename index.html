@@ -3,12 +3,14 @@
   <head>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
-    <script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'></script>
-    <script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+	<script src="js/moment.js"></script>
+	<script src="js/livestamp.js"></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.0.0/jquery.serialize-object.compiled.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/path.js/0.8.4/path.min.js'></script>
+    <script type="http://timeago.yarp.com/jquery.timeago.js"></script>
     <script src='index.js'></script>
     <link rel="stylesheet" type="text/css" href="index.css">
+
   </head>
   <body>
 	  <header class="navbar navbar-static-top navbar-inverse" id="top" role="banner">
@@ -42,7 +44,7 @@
 	    <form id="frmLogin" role="form">
 	         <h2>Login with</h2>
 
-	        <a href="#" class="btn btn-danger bt-social" data-provider="google">Google+</a>
+	        <a href="#" class="btn btn-danger bt-social" data-provider="google">Google</a>
 
 	    </form>
 	    <!-- / LOGIN -->
@@ -58,20 +60,20 @@
 
 	        <br />
 	        <div class="form-group">
-	        <div id='messagesDiv'></div>
-    		<input type='text' class="form-control" id='nameInput' placeholder='Name'>
-    		<input type='text' class="form-control" id='messageInput' placeholder='Message'>
+	        <div id='messagesDiv'>
+	        </div>
+	        <p id='userThatSendMessage'></p>
+	        <input type='text' class="form-control" id='messageInput' placeholder='Message'>
     		</div>
-	        <button type="submit" class="btn btn-primary">Update</button>
 	    </form>
 	    <!-- / PROFILE -->
 	    <hr />
 	    <!-- ALERT BOX -->
-	    <div id="alert" class="alert" role="alert">
+	    <!--<div id="alert" class="alert" role="alert">
 	         <h4 id="alert-title">You are not logged in</h4>
 
-	        <p id="alert-detail"></p>
-	    </div>
+	        <p id="alert-detail">hej</p>
+	    </div>-->
 	    <!-- / ALERT BOX -->
 	</div>
     
